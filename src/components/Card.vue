@@ -6,19 +6,39 @@ const images = {
 }
 
 interface Props {
-    img: keyof typeof images
+    framework: keyof typeof images,
+    name: string,
+    creationDate: string,
+    stage: string,
+    owner: string,
 }
 
 export default {
     props: {
-        img: {
+        name: {
+            type: String,
+            required: true,
+        },
+        creationDate: {
+            type: String,
+            required: true,
+        },
+        stage: {
+            type: String,
+            required: true,
+        },
+        owner: {
+            type: String,
+            required: true,
+        },
+        framework: {
             required: true,
             type: String as PropType<keyof typeof images>,
-        }
+        },
     },
     setup(props: Props) {
         const imgLogo = ref('imgLogo')
-        imgLogo.value = images[props.img]
+        imgLogo.value = images[props.framework]
         return {
             imgLogo: imgLogo.value
         }
@@ -28,12 +48,12 @@ export default {
 
 <template>
     <div
-        class="w-full h-52 rounded bg-gray-200 border-gray-300 border m-5 py-2 px-4 shadow-xl relative"
+        class="w-full h-52 rounded bg-gray-50 border-gray-300 border my-2 mx-2 py-2 px-4 shadow-xl relative"
     >
         <div class="border-b border-gray-600 pb-1 flex justify-between items-center align-middle">
             <h4 class="text-left text-xl flex gap-1 w-full">
                 <img class="w-8" :src="imgLogo" />
-                <span class="flex items-end">Frontend</span>
+                <span class="flex items-end">{{ $props.name }}</span>
             </h4>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -52,29 +72,25 @@ export default {
         </div>
         <ul class="py-4 flex flex-col text-sm">
             <li class="flex">
-                <span class="mr-5 font-medium min-w-max w-20">Name:</span>
-                <span>Cart Service</span>
-            </li>
-            <li class="flex">
                 <span class="mr-5 font-medium min-w-max w-20">Created At:</span>
-                <span>24/6/21 2:53 am</span>
+                <span>{{ $props.creationDate }}</span>
             </li>
             <li class="flex">
                 <span class="mr-5 font-medium min-w-max w-20">Owner:</span>
-                <span>John Doe</span>
+                <span>{{ $props.owner }}</span>
             </li>
             <li class="flex">
                 <span class="mr-5 font-medium min-w-max w-20">Stage:</span>
-                <span>CI</span>
+                <span>{{ $props.stage }}</span>
             </li>
             <li class="flex">
                 <span class="mr-5 font-medium min-w-max w-20">Framework:</span>
-                <span>Node</span>
+                <span>{{ $props.framework }}</span>
             </li>
         </ul>
         <div class="text-right w-full absolute bottom-2 right-2">
             <button
-                class="rounded-2xl text-white inset-y-full bg-indigo-800 border-gray-500 p-2"
+                class="rounded-3xl text-white inset-y-full bg-indigo-800 border-gray-500 py-2 px-4"
             >Action</button>
         </div>
     </div>

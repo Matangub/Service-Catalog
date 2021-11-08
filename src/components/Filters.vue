@@ -1,68 +1,116 @@
-<script setup lang="ts">
+<script lang="ts">
 import DropdownSelect from './DropdownSelect.vue';
+import { PropType } from 'vue'
 
+import { frameworks } from '../types/frameworks'
+import { filtersProps } from '../types/filtersProps'
+
+export default {
+    name: 'Filters',
+    components: {
+        DropdownSelect
+    },
+    props: {
+        frameworks: {
+            type: Object as PropType<frameworks[]>,
+            required: true,
+        },
+        updateFramework: {
+            type: Function as PropType<(checked: boolean, index: number) => void>,
+            required: true,
+        },
+        owners: {
+            type: Array as PropType<string[]>,
+            required: true,
+        },
+        selectedOwner: {
+            type: String as PropType<string>,
+            required: true,
+        },
+        name: {
+            type: String as PropType<string>,
+            required: true,
+        },
+        stage: {
+            type: String as PropType<string>,
+            required: true,
+        }
+    },
+    setup(props: any, context: any) {
+
+        const updateOwner = (e: any) => {
+            context.emit('update:selectedOwner', e.target.value);
+        }
+
+        const updateName = (e: any) => {
+            context.emit('update:name', e.target.value);
+        }
+
+        const updateStage = (e: any) => {
+            context.emit('update:stage', e.target.value);
+        }
+
+        return {
+            updateOwner, updateName, updateStage
+        }
+    }
+}
 </script>
 
 <template>
     <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-city"
             >Name</label>
             <input
+                :value="$props.name"
+                @input="updateName($event)"
                 class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-city"
                 type="text"
-                placeholder="Albuquerque"
+                placeholder="Search"
             />
         </div>
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-state"
             >Owner / Team</label>
             <div class="relative">
                 <select
+                    :value="$props.selectedOwner"
+                    @input="updateOwner($event)"
                     class="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-state"
                 >
-                    <option>New Mexico</option>
-                    <option>Missouri</option>
-                    <option>Texas</option>
+                    <option v-for="owner in $props.owners">{{ owner }}</option>
                 </select>
-                <div
-                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                >
-                    <svg
-                        class="fill-current h-4 w-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                    >
-                        <path
-                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                        />
-                    </svg>
-                </div>
             </div>
         </div>
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-zip"
             >Framework</label>
-            <DropdownSelect />
+            <DropdownSelect
+                :frameworks="$props.frameworks"
+                :updateFramework="$props.updateFramework"
+            />
         </div>
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-zip"
             >Stage</label>
             <input
+                :value="$props.stage"
+                @input="updateStage($event)"
                 class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-zip"
                 type="text"
-                placeholder="90210"
+                placeholder="Search"
             />
         </div>
     </div>
