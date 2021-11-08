@@ -37,8 +37,7 @@ export default {
         },
     },
     setup(props: Props) {
-        const imgLogo = ref('imgLogo')
-        imgLogo.value = images[props.framework]
+        const imgLogo = ref(images[props.framework])
         return {
             imgLogo: imgLogo.value
         }
@@ -48,7 +47,7 @@ export default {
 
 <template>
     <div
-        class="w-full h-52 rounded bg-gray-50 border-gray-300 border my-2 mx-2 py-2 px-4 shadow-xl relative"
+        class="w-full h-52 rounded bg-gray-50 border-gray-300 border my-2 mx- py-2 px-4 shadow-xl relative"
     >
         <div class="border-b border-gray-600 pb-1 flex justify-between items-center align-middle">
             <h4 class="text-left text-xl flex gap-1 w-full">

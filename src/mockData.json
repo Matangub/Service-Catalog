@@ -3,8 +3,8 @@
         {
             "name": "Cart Service123",
             "creationDate": "15/2/21",
-            "owner": "Bekky",
-            "stage": "CI",
+            "owner": "Gandalf",
+            "stage": "CICD",
             "framework": "nodejs"
         },
         {
@@ -465,14 +465,14 @@
         {
             "name": "Cart Service7",
             "creationDate": "15/2/21",
-            "owner": "Bekky",
+            "owner": "James",
             "stage": "CI",
             "framework": "nodejs"
         },
         {
             "name": "Cart Service8",
             "creationDate": "15/2/21",
-            "owner": "Bekky",
+            "owner": "Matan",
             "stage": "CI",
             "framework": "python"
         },
@@ -486,7 +486,7 @@
         {
             "name": "Cart Service10",
             "creationDate": "15/2/21",
-            "owner": "Bekky",
+            "owner": "Matan",
             "stage": "CI",
             "framework": "python"
         },
@@ -520,6 +520,13 @@
         },
         {
             "name": "Cart Service Final",
+            "creationDate": "15/2/21",
+            "owner": "Bekky",
+            "stage": "TEST",
+            "framework": "go"
+        },
+        {
+            "name": "Cart Service Final2",
             "creationDate": "15/2/21",
             "owner": "Bekky",
             "stage": "TEST",
