@@ -5,7 +5,7 @@ const images = {
     Go: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
     Flask: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     Laravel: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg",
-    Spring: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg",
+    Spring: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
 }
 
 interface Props {
