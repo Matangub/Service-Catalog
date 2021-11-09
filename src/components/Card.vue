@@ -1,12 +1,15 @@
 <script lang="ts">
 import { ref, PropType } from 'vue'
 const images = {
-    nodejs: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg",
-    python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    Express: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg",
+    Go: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
+    Flask: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    Laravel: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg",
+    Spring: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg",
 }
 
 interface Props {
-    framework: keyof typeof images,
+    framework: string,
     name: string,
     creationDate: string,
     stage: string,
@@ -33,11 +36,11 @@ export default {
         },
         framework: {
             required: true,
-            type: String as PropType<keyof typeof images>,
+            type: String as PropType<string>,
         },
     },
     setup(props: Props) {
-        const imgLogo = ref(images[props.framework])
+        const imgLogo = ref(images[props.framework as keyof typeof images])
         return {
             imgLogo: imgLogo.value
         }
@@ -54,20 +57,10 @@ export default {
                 <img class="w-8" :src="imgLogo" />
                 <span class="flex items-end">{{ $props.name }}</span>
             </h4>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 cursor-pointer"
-                fill="none"
-                viewBox="0 0 20 20"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                />
-            </svg>
+            <font-awesome-icon
+                :icon="['fa', 'ellipsis-v']"
+                class="h-4 w-4 cursor-pointer text-gray-500"
+            />
         </div>
         <ul class="py-4 flex flex-col text-sm">
             <li class="flex">

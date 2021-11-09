@@ -2,14 +2,13 @@
 import Card from './components/Card.vue'
 import SideBar from './components/SideBar.vue'
 import Filters from './components/Filters.vue'
-import { PropType } from 'vue'
 import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import mockData from './mockData.json'
 
 import { frameworks } from './types/frameworks'
 import { serverDataType } from './types/serverDataType'
-import { ref, watchEffect, reactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 
 
@@ -22,35 +21,53 @@ export default {
     VPagination,
   },
   setup() {
-    const ITEMS_IN_PAGE = 12
-    const ownerSelectText = 'Select'
-    const data = ref<any>(mockData.data)
+    const OWNER_SELECT_TEXT = 'Select'
+    let NUMBER_OF_COLS = 4
+    let ITEMS_IN_PAGE = 12
 
-    const frameworks = [... new Set(mockData.data.map(i => i.framework))] //unique values
-    const frameworks2 = ref(frameworks.map(i => ({ framework: i, checked: true })))
+    if (window.innerWidth <= 1366) {
+      NUMBER_OF_COLS = 3
+      ITEMS_IN_PAGE = 6
+    }
+    else if (window.innerWidth <= 920) {
+      NUMBER_OF_COLS = 1
+      ITEMS_IN_PAGE = 1
+    }
 
-    const owners = ref([ownerSelectText, ...new Set(mockData.data.map(i => i.owner)),])
-    const selectedOwner = ref(ownerSelectText)
+    const data = ref<serverDataType[]>(mockData.data)
+    const uniqFrameworks = [... new Set(mockData.data.map(i => i.framework))] //unique values
+
+    const frameworks = ref(uniqFrameworks.map(i => ({ framework: i, checked: true })))
+    const owners = ref([OWNER_SELECT_TEXT, ...new Set(mockData.data.map(i => i.owner)),])
+    const selectedOwner = ref(OWNER_SELECT_TEXT)
     const name = ref('')
     const stage = ref('')
     const page = ref(1)
 
     const updateFramework = (checked: boolean, index: number) => {
-      frameworks2.value[index].checked = checked
+      frameworks.value[index].checked = checked
     }
 
-    const filteredData = computed(() => data.value.filter((item: any, index: number) => {
+    const filteredData = computed(() => data.value.filter((item: serverDataType, index: number) => {
       if (!item.name.toLowerCase().includes(name.value.toLowerCase())) return false;
       if (!item.stage.toLowerCase().includes(stage.value.toLowerCase())) return false;
-      if (!frameworks2.value.find((x: frameworks) => x.framework === item.framework && x.checked)) return false;
-      if (item.owner !== selectedOwner.value && selectedOwner.value !== ownerSelectText) return false;
+      if (!frameworks.value.find((x: frameworks) => x.framework === item.framework && x.checked)) return false;
+      if (item.owner !== selectedOwner.value && selectedOwner.value !== OWNER_SELECT_TEXT) return false;
 
       return true
     }))
 
-
     return {
-      filteredData, frameworks: frameworks2.value, updateFramework, owners, selectedOwner, name, stage, page, ITEMS_IN_PAGE
+      filteredData,
+      frameworks: frameworks.value,
+      updateFramework,
+      owners,
+      selectedOwner,
+      name,
+      stage,
+      page,
+      ITEMS_IN_PAGE,
+      NUMBER_OF_COLS
     }
   }
 }
@@ -73,10 +90,11 @@ export default {
             class="border-gray-200 border-b py-4"
           />
           <div
-            class="grid grid-cols-4 justify-center justify-items-center align-middle gap-5 grid-flow-row"
+            :class="`grid grid-cols-${NUMBER_OF_COLS} justify-center justify-items-center align-middle gap-5 grid-flow-row`"
           >
             <Card
               v-for="card in filteredData.slice((page - 1) * ITEMS_IN_PAGE, page * ITEMS_IN_PAGE)"
+              :key="card.id"
               :name="card.name"
               :creationDate="card.creationDate"
               :stage="card.stage"
@@ -87,7 +105,7 @@ export default {
 
           <div
             v-show="filteredData.length"
-            class="absolute bottom-5 left-1/2 w-72 flex justify-center"
+            :class="`absolute bottom-5 left-1/2 w-72 transform -translate-x-2/4 lg:transform-none flex justify-center`"
           >
             <v-pagination
               v-model="page"

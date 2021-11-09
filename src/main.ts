@@ -13,6 +13,7 @@ import {
     faFire,
     faExclamationCircle,
     faExclamation,
+    faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
 import {
     faPython,
@@ -36,6 +37,7 @@ library.add(faDocker);
 library.add(faFire);
 library.add(faExclamationCircle);
 library.add(faExclamation);
+library.add(faEllipsisV);
 
 const clickOutside = {
     beforeMount: (el: any, binding: any) => {
